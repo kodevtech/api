@@ -1,0 +1,20 @@
+{
+  "development": {
+    "username": "bheng",
+    "password": 5okharoth,
+    "database": "iproject",
+    "host": "iproject.cjbvry0ekzyh.us-east-1.rds.amazonaws.com",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "bheng",
+    "password": 5okharoth,
+    "database": "iproject",
+    "host": "iproject.cjbvry0ekzyh.us-east-1.rds.amazonaws.com",
+    "dialect": "postgres"
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL",
+    "dialect": "postgres"
+  }
+}

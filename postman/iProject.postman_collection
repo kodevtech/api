@@ -1,0 +1,1323 @@
+{
+	"variables": [],
+	"info": {
+		"name": "iProject",
+		"_postman_id": "7cdd8101-b06a-f30c-d8e7-ea1a896dde9e",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Company",
+			"description": "",
+			"item": [
+				{
+					"name": "Company Fetch All",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var resp = JSON.parse(responseBody),validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 2000ms\"] = responseTime < 2000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(resp.message)",
+									"    tests[resp.message] = responseCode.code === 200 ;",
+									"if(resp.error)    ",
+									"    tests[resp.error] = responseCode.code === 200 ;",
+									"",
+									"if(responseCode.code === 200){",
+									"    tests[\"Body contains company id random\"] = resp.companies.length;",
+									"    if(resp.companies.length) {",
+									"        postman.setEnvironmentVariable(\"company_id\", resp.companies[0].id); ",
+									"        tests[\"Company Id is set\"] = postman.getEnvironmentVariable(\"company_id\");    ",
+									"    } else {",
+									"         postman.clearEnvironmentVariable(\"company_id\");",
+									"    }     ",
+									"} else {",
+									"    postman.clearEnvironmentVariable(\"company_id\");",
+									"    ",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/auth/companies",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"companyName\":\"Test Company\",\n  \"city\":\"Test\",\n  \"contactNumber\":\"1234567890\"\n}\n"
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Company Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var resp = JSON.parse(responseBody),validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 2000ms\"] = responseTime < 2000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(resp.message)",
+									"    tests[resp.message] = responseCode.code === 200 ;",
+									"if(resp.error)    ",
+									"    tests[resp.error] = responseCode.code === 200 ;",
+									"",
+									"if(responseCode.code === 200){",
+									"    tests[\"Body contains company id\"] = resp.id;",
+									"    ",
+									"    postman.setEnvironmentVariable(\"company_id\", resp.id); ",
+									"    tests[\"Company Id is set\"] = postman.getEnvironmentVariable(\"company_id\");    ",
+									"         ",
+									"} else {",
+									"    postman.clearEnvironmentVariable(\"company_id\");",
+									"    ",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/auth/company",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"companyName\":\"Test Company\",\n  \"city\":\"Test\"\n}\n"
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Company Update Logo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var resp = JSON.parse(responseBody),validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 2000ms\"] = responseTime < 2000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(resp.message)",
+									"    tests[resp.message] = responseCode.code === 200 ;",
+									"if(resp.error)    ",
+									"    tests[resp.error] = responseCode.code === 200 ;",
+									"",
+									"if(responseCode.code === 200){",
+									"    tests[\"Body contains company id\"] = resp.id;",
+									"    ",
+									"    postman.setEnvironmentVariable(\"company_id\", resp.id); ",
+									"    tests[\"Company Id is set\"] = postman.getEnvironmentVariable(\"company_id\");    ",
+									"         ",
+									"} else {",
+									"    postman.clearEnvironmentVariable(\"company_id\");",
+									"    ",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/auth/company",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"companyName\":\"Test Company\",\n  \"city\":\"Test\"\n}\n"
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Company Read",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var resp = JSON.parse(responseBody),validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 2000ms\"] = responseTime < 2000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(resp.message)",
+									"    tests[resp.message] = responseCode.code === 200 ;",
+									"if(resp.error)    ",
+									"    tests[resp.error] = responseCode.code === 200 ;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/auth/company/{{company_id}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"companyName\":\"Test Company\",\n  \"city\":\"Test\",\n  \"contactNumber\":\"1234567890\"\n}\n"
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Company Users Read",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var resp = JSON.parse(responseBody),validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 2000ms\"] = responseTime < 2000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(resp.message)",
+									"    tests[resp.message] = responseCode.code === 200 ;",
+									"if(resp.error)    ",
+									"    tests[resp.error] = responseCode.code === 200 ;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/auth/companyUser/{{company_id}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"companyName\":\"Test Company\",\n  \"city\":\"Test\",\n  \"contactNumber\":\"1234567890\"\n}\n"
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Company Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var resp = JSON.parse(responseBody),validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 2000ms\"] = responseTime < 2000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(resp.message)",
+									"    tests[resp.message] = responseCode.code === 200 ;",
+									"if(resp.error)    ",
+									"    tests[resp.error] = responseCode.code === 200 ;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/auth/company",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"{{company_id}}\",\n  \"city\":\"Test1\",\n  \"limit\": 200\n}\n"
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Company Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var resp = JSON.parse(responseBody),validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 2000ms\"] = responseTime < 2000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(resp.message)",
+									"    tests[resp.message] = responseCode.code === 200 ;",
+									"if(resp.error)    ",
+									"    tests[resp.error] = responseCode.code === 200 ;",
+									"",
+									"if(responseCode.code === 200){",
+									"    postman.clearEnvironmentVariable(\"company_id\");",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/auth/company",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"{{company_id}}\"\n}"
+						},
+						"description": null
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Permission",
+			"description": "",
+			"item": [
+				{
+					"name": "Permission Fetch All",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var resp = JSON.parse(responseBody),validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 2000ms\"] = responseTime < 2000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(resp.message)",
+									"    tests[resp.message] = responseCode.code === 200 ;",
+									"if(resp.error)    ",
+									"    tests[resp.error] = responseCode.code === 200 ;",
+									"",
+									"",
+									"if(responseCode.code === 200){",
+									"    tests[\"Body contains Permission id random\"] = resp.permissions.length;",
+									"    if(resp.permissions.length) {",
+									"        postman.setEnvironmentVariable(\"permission_id\", resp.permissions[1].id); ",
+									"        tests[\"Permission Id is set\"] = postman.getEnvironmentVariable(\"permission_id\");    ",
+									"    } else {",
+									"         postman.clearEnvironmentVariable(\"permission_id\");",
+									"    }     ",
+									"} else {",
+									"    postman.clearEnvironmentVariable(\"permission_id\");",
+									"    ",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/auth/permissions",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"companyName\":\"Test Company\",\n  \"city\":\"Test\",\n  \"contactNumber\":\"1234567890\"\n}\n"
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Permission Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var resp = JSON.parse(responseBody),validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 2000ms\"] = responseTime < 2000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(resp.message)",
+									"    tests[resp.message] = responseCode.code === 200 ;",
+									"if(resp.error)    ",
+									"    tests[resp.error] = responseCode.code === 200 ;",
+									"",
+									"if(responseCode.code === 200){",
+									"    tests[\"Body contains permission id\"] = resp.id;",
+									"    ",
+									"    postman.setEnvironmentVariable(\"permission_id\", resp.id); ",
+									"    tests[\"Company Id is set\"] = postman.getEnvironmentVariable(\"permission_id\");    ",
+									"         ",
+									"} else {",
+									"    postman.clearEnvironmentVariable(\"permission_id\");",
+									"    ",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/auth/permission",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"permissionName\":\"Test permission\",\n  \"priority\":\"10\"\n}\n"
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Permission Read",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var resp = JSON.parse(responseBody),validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 2000ms\"] = responseTime < 2000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(resp.message)",
+									"    tests[resp.message] = responseCode.code === 200 ;",
+									"if(resp.error)    ",
+									"    tests[resp.error] = responseCode.code === 200 ;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/auth/permission/{{permission_id}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"companyName\":\"Test Company\",\n  \"city\":\"Test\",\n  \"contactNumber\":\"1234567890\"\n}\n"
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Permission Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var resp = JSON.parse(responseBody),validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 2000ms\"] = responseTime < 2000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(resp.message)",
+									"    tests[resp.message] = responseCode.code === 200 ;",
+									"if(resp.error)    ",
+									"    tests[resp.error] = responseCode.code === 200 ;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/auth/permission",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"{{permission_id}}\",\n  \"permissionName\": \"Test Perm\",\n  \"priority\": 6\n}\n"
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Permission Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var resp = JSON.parse(responseBody),validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 2000ms\"] = responseTime < 2000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(resp.message)",
+									"    tests[resp.message] = responseCode.code === 200 ;",
+									"if(resp.error)    ",
+									"    tests[resp.error] = responseCode.code === 200 ;",
+									"",
+									"if(responseCode.code === 200){",
+									"    postman.clearEnvironmentVariable(\"permission_id\");",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/auth/permission",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"{{permission_id}}\"\n}"
+						},
+						"description": null
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"description": "",
+			"item": [
+				{
+					"name": "Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var datas = JSON.parse(responseBody), validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 4000ms\"] = responseTime < 4000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(responseCode.code === 200)",
+									"    tests['Successfully created'] = responseCode.code === 200 ;",
+									"if(datas.error)    ",
+									"    tests[datas.error] = responseCode.code === 200 ;",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/api/user",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userName\":\"Test\",\n  \"email\":\"test@gmail.com\",\n  \"firstName\":\"Test\",\n  \"lastName\":\"Test\",\n  \"companyId\": \"{{companyId}}\",\n  \"permissionId\": \"{{permissionId}}\"\n}\n\n"
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Get Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var datas = JSON.parse(responseBody), validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 10000ms\"] = responseTime < 10000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(datas.message)",
+									"    tests[datas.message] = responseCode.code === 200 ;",
+									"if(datas.error)    ",
+									"    tests[datas.error] = responseCode.code === 200 ;",
+									"",
+									"",
+									"if(responseCode.code === 200){",
+									"    if(datas.token)  ",
+									"        postman.setEnvironmentVariable(\"verification_token\", datas.token); ",
+									"}        "
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/api/getToken",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\":\"test@gmail.com\",\n  \"type\": \"verify\"\n}"
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var resp = JSON.parse(responseBody),validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 2000ms\"] = responseTime < 2000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(resp.message)",
+									"    tests[resp.message] = responseCode.code === 200 ;",
+									"if(resp.error)    ",
+									"    tests[resp.error] = responseCode.code === 200 ;",
+									"",
+									"if(responseCode.code === 200){",
+									"    postman.clearEnvironmentVariable(\"verification_token\");",
+									"} "
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/api/verify",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"token\": \"{{verification_token}}\",\n  \"type\": \"verify\"\n}"
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var datas = JSON.parse(responseBody), validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 4000ms\"] = responseTime < 4000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(datas.message)",
+									"    tests[datas.message] = responseCode.code === 200 ;",
+									"if(datas.error)    ",
+									"    tests[datas.error] = responseCode.code === 200 ;",
+									"",
+									"",
+									"if(responseCode.code === 200){",
+									"    tests[\"Body contains token\"] = datas.token;",
+									"    ",
+									"    postman.setEnvironmentVariable(\"token\", datas.token); ",
+									"    tests[\"Token is set\"] = postman.getEnvironmentVariable(\"token\");    ",
+									"         ",
+									"} else {",
+									"    postman.clearEnvironmentVariable(\"token\");",
+									"    ",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/api/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\":\"TestCompany_Brekke95@hotmail.com\",\n  \"password\":\"admin123\"\n}"
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var resp = JSON.parse(responseBody),",
+									"    validMsg ;",
+									"    ",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 10000ms\"] = responseTime < 10000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"if(resp.message)",
+									"    tests[resp.message] = responseCode.code === 200 ;",
+									"if(resp.error)    ",
+									"    tests[resp.error] = responseCode.code === 200 ;",
+									"",
+									"if(responseCode.code === 200){",
+									"    if(resp.token)  ",
+									"        postman.setEnvironmentVariable(\"reset_token\", resp.token); ",
+									"}        "
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/api/getToken",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"test@gmail.com\",\n  \"type\": \"reset\"\n}"
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var datas = JSON.parse(responseBody), validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 4000ms\"] = responseTime < 4000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(datas.message)",
+									"    tests[datas.message] = responseCode.code === 200 ;",
+									"if(datas.error)    ",
+									"    tests[datas.error] = responseCode.code === 200 ;",
+									"",
+									"",
+									"if(responseCode.code === 200){",
+									"    postman.clearEnvironmentVariable(\"reset_token\");",
+									"} "
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/api/reset",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"token\": \"{{reset_token}}\",\n  \"password\": \"111111\",\n  \"type\": \"reset\"\n}"
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Profile Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var resp = JSON.parse(responseBody),validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 2000ms\"] = responseTime < 2000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(resp.message)",
+									"    tests[resp.message] = responseCode.code === 200 ;",
+									"if(resp.error)    ",
+									"    tests[resp.error] = responseCode.code === 200 ;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/auth/company",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"companyName\":\"Test Company\",\n  \"city\":\"Test\",\n  \"contactNumber\":\"1234567890\"\n}\n"
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Userinfo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var resp = JSON.parse(responseBody),validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 2000ms\"] = responseTime < 2000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(resp.message)",
+									"    tests[resp.message] = responseCode.code === 200 ;",
+									"if(resp.error)    ",
+									"    tests[resp.error] = responseCode.code === 200 ;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/auth/info",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": null
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Super Admin",
+			"description": "",
+			"item": [
+				{
+					"name": "Super Admin Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var datas = JSON.parse(responseBody), validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 4000ms\"] = responseTime < 4000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(datas.message)",
+									"    tests[datas.message] = responseCode.code === 200 ;",
+									"if(datas.error)    ",
+									"    tests[datas.error] = responseCode.code === 200 ;",
+									"",
+									"",
+									"if(responseCode.code === 200){",
+									"    tests[\"Body contains token\"] = datas.token;",
+									"    ",
+									"    postman.setEnvironmentVariable(\"token\", datas.token); ",
+									"    tests[\"Token is set\"] = postman.getEnvironmentVariable(\"token\");    ",
+									"         ",
+									"} else {",
+									"    postman.clearEnvironmentVariable(\"token\");",
+									"    ",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/api/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\":\"bunlongheng.me@gmail.com\",\n  \"password\":\"superadmin123\"\n}"
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Userinfo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var resp = JSON.parse(responseBody),validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 2000ms\"] = responseTime < 2000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(resp.message)",
+									"    tests[resp.message] = responseCode.code === 200 ;",
+									"if(resp.error)    ",
+									"    tests[resp.error] = responseCode.code === 200 ;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/auth/info",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var resp = JSON.parse(responseBody),validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 2000ms\"] = responseTime < 2000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(resp.message)",
+									"    tests[resp.message] = responseCode.code === 200 ;",
+									"if(resp.error)    ",
+									"    tests[resp.error] = responseCode.code === 200 ;",
+									"",
+									"if(responseCode.code === 200){",
+									"    postman.clearEnvironmentVariable(\"verification_token\");",
+									"    postman.clearEnvironmentVariable(\"reset_token\");",
+									"    postman.clearEnvironmentVariable(\"token\");",
+									"} "
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/auth/user",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"{{user_id}}\"\n}"
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Profile Update copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var resp = JSON.parse(responseBody),validMsg ;",
+									"",
+									"// parse response body as JSON",
+									"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+									"tests[\"Response time is less than 2000ms\"] = responseTime < 2000;",
+									"tests['received a valid JSON response '] = !!responseJSON;",
+									"",
+									"",
+									"if(resp.message)",
+									"    tests[resp.message] = responseCode.code === 200 ;",
+									"if(resp.error)    ",
+									"    tests[resp.error] = responseCode.code === 200 ;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/auth/company",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"companyName\":\"Test Company\",\n  \"city\":\"Test\",\n  \"contactNumber\":\"1234567890\"\n}\n"
+						},
+						"description": null
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Check",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody),",
+							"    validMsg ;",
+							"",
+							"// parse response body as JSON",
+							"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+							"tests[\"Response time is less than 4000ms\"] = responseTime < 4000;",
+							"tests['received a valid JSON response '] = !!responseJSON;",
+							"",
+							"if(responseCode.code === 200){",
+							"    validMsg = \"API is working\";",
+							"} else {",
+							"    validMsg = data.message;",
+							"}",
+							"",
+							"tests[validMsg] = responseCode.code === 200 ;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/api/test",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "Auth Check",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var datas = JSON.parse(responseBody), validMsg ;",
+							"",
+							"// parse response body as JSON",
+							"try { responseJSON = JSON.parse(responseBody); } catch (e) { }",
+							"tests[\"Response time is less than 4000ms\"] = responseTime < 4000;",
+							"tests['received a valid JSON response '] = !!responseJSON;",
+							"",
+							"",
+							"if(datas.message)",
+							"    tests[datas.message] = responseCode.code === 200 ;",
+							"if(datas.error)    ",
+							"    tests[datas.error] = responseCode.code === 200 ;",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/auth/test",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": null
+			},
+			"response": []
+		}
+	]
+}

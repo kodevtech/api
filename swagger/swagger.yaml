@@ -1,0 +1,805 @@
+swagger: "2.0"
+info:
+  description: "Phase 1 Swagger Integration"
+  version: "1.0.0"
+  title: "iProject"
+host: "localhost:3002"
+#basePath: "/api"
+tags:
+- name: "public"
+  description: "public operations"
+- name: "user"
+  description: "Operations about user"
+- name: "company"
+  description: "Operations about company"
+- name: "permission"
+  description: "Operations about permissions"
+schemes:
+- "http"
+paths:
+  /api/login:
+    post:
+      tags:
+      - "public"
+      summary: "Logs user into the system"
+      description: ""
+      operationId: "login"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "Login object"
+        required: true
+        schema:
+          $ref: "#/definitions/Login"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "You need valid email and password"
+        401:
+          description: "multiple reasons"
+          schema:
+            type: array
+            items:
+              type: "string"
+              enum:
+              - "No user with the given email"
+              - "No credentials found. Check your mail or Contact your admin"
+              - "Incorrect credentials"
+              - "Account is not verified"
+  /api/reset:
+      post:
+        tags:
+        - "public"
+        summary: "Reset password"
+        description: ""
+        operationId: "reset"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+        - name: "body"
+          in: "body"
+          description: "Reset object"
+          required: true
+          schema:
+            $ref: "#/definitions/ResetPasswordRequest"
+        responses:
+          200:
+            description: "successful operation"
+            schema:
+              $ref: "#/definitions/ApiResponse"
+          400:
+            description: "multiple reasons"
+            schema:
+              type: array
+              items:
+                type: "string"
+                enum:
+                - "Password is required."
+                - "Minimum 6 characters required"
+  /api/set:
+      post:
+        tags:
+        - "public"
+        summary: "Set password"
+        description: ""
+        operationId: "set"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+        - name: "body"
+          in: "body"
+          description: "Reset object"
+          required: true
+          schema:
+            $ref: "#/definitions/ResetPasswordRequest"
+        responses:
+          200:
+            description: "successful operation"
+            schema:
+              $ref: "#/definitions/ApiResponse"
+          400:
+            description: "multiple reasons"
+            schema:
+              type: array
+              items:
+                type: "string"
+                enum:
+                - "Password is required."
+                - "Minimum 6 characters required"
+  /api/signup:
+    post:
+      tags:
+      - "public"
+      summary: "Create user"
+      description: ""
+      operationId: "singup"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "Singup object"
+        required: true
+        schema:
+          $ref: "#/definitions/Signup"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/SignupResponse"
+        422:
+          description: "Email and password are required."
+        400:
+          description: "multiple reasons"
+          schema:
+            type: array
+            items:
+              type: "string"
+              enum:
+              - "Username must be less than 10 characters."
+              - "Email is too long, please use shorter email address"
+              - "Email must be in valid format"
+              - "The email is already registered."
+  /api/getToken:
+      post:
+        tags:
+        - "public"
+        summary: "Signup User"
+        description: ""
+        operationId: "getToken"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+        - name: "body"
+          in: "body"
+          description: "Reset object"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              email:
+                type: "string"
+        responses:
+          200:
+            description: "successful operation"
+            schema:
+              $ref: "#/definitions/GetTokenResponse"
+          400:
+            description: "multiple reasons"
+            schema:
+              type: array
+              items:
+                type: "string"
+                enum:
+                - "Invalid User"
+                - "User is already verified"
+                - "Link has been expired. Please check recovery option by clicking on forgot password"
+  /auth/info:
+    get:
+      tags:
+      - "user"
+      summary: "Fetch User"
+      description: "Fetch User"
+      operationId: "getUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "ID of user to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "User not found"
+      security:
+      - api_key: []
+  /auth/user:
+    post:
+      tags:
+      - "user"
+      summary: "Signup User"
+      description: "Signup User"
+      operationId: "createUser"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Create new user"
+        required: true
+        schema:
+          $ref: "#/definitions/createUser"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/SignupResponse"
+        422:
+          description: "Email and permission are required."
+        400:
+          description: "multiple reasons"
+          schema:
+            type: array
+            items:
+              type: "string"
+              enum:
+              - "Username must be less than 10 characters."
+              - "The email is already registered."
+              - "Email is too long, please use shorter email address"
+              - "Email must be in valid format"
+      security:
+      - api_key: []
+  /auth/user/{userId}:
+    get:
+      tags:
+      - "user"
+      summary: "Fetch User Details By Id"
+      description: "Fetch User Details"
+      operationId: "getUserById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "ID of user to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "User not found"
+      security:
+      - api_key: []
+    delete:
+      tags:
+      - "user"
+      summary: "Removing User Details"
+      description: "Removing User Details"
+      operationId: "deleteUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "api_key"
+        in: "header"
+        required: false
+        type: "string"
+      - name: "userId"
+        in: "path"
+        description: "User id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "User not found"
+      security:
+      - api_key: []
+    put:
+      tags:
+      - "user"
+      summary: "Updating User Details"
+      description: "Updating User Details"
+      operationId: "updateProfileByID"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "Id that need to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated user object"
+        required: true
+        schema:
+          $ref: "#/definitions/updateUser"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        400:
+          description: "Invalid user supplied"
+        404:
+          description: "User not found"
+      security:
+      - api_key: []
+  /auth/company:
+    post:
+      tags:
+      - "company"
+      summary: "Adding New Company Details"
+      description: "Adding New Company Details"
+      operationId: "saveCompany"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Company object that needs to be added to the system"
+        required: true
+        schema:
+          $ref: "#/definitions/Company"
+      responses:
+        400:
+          description: "multiple reasons"
+          schema:
+            type: array
+            items:
+              type: "string"
+              enum:
+              - "Company name and City are required"
+              - "You are not authorized to perform this action .Contact your admin"
+              - "The Company is already registered."
+      security:
+      - api_key: []
+  /auth/companies:
+    get:
+      tags:
+      - "company"
+      summary: "Fetch All Company Details"
+      description: "Fetch All Company Details"
+      operationId: "getCompanies"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Company"
+        401:
+          description: "No company found"
+      security:
+      - api_key: []
+  /auth/companyUser/{companyId}:
+    get:
+      tags:
+      - "company"
+      summary: "Fetch All Company Users Details"
+      description: "Fetch All Company Users Details"
+      operationId: "getCompanyUsers"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "companyId"
+        in: "path"
+        description: "Company Id to fetch details for"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+        400:
+          description: "No user for this company"
+      security:
+      - api_key: []
+  /auth/company/{companyId}:
+    get:
+      tags:
+      - "company"
+      summary: "Fetch Company Details"
+      description: "Fetch Company Details"
+      operationId: "getCompany"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "companyId"
+        in: "path"
+        description: "Company Id to fetch details for"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Company"
+        401:
+          description: "No company found"
+      security:
+      - api_key: []
+    delete:
+      tags:
+      - "company"
+      summary: "Removing Company Details"
+      description: "Removing Company Details"
+      operationId: "deleteCompany"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "api_key"
+        in: "header"
+        required: false
+        type: "string"
+      - name: "companyId"
+        in: "path"
+        description: "Company id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Company not found"
+      security:
+      - api_key: []
+    put:
+      tags:
+      - "company"
+      summary: "Updating Company Details"
+      description: "Updating Company Details"
+      operationId: "updateCompany"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "companyId"
+        in: "path"
+        description: "Company that need to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated user object"
+        required: true
+        schema:
+          $ref: "#/definitions/updateCompany"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        400:
+          description: "updateCompany Error"
+      security:
+      - api_key: []
+  /auth/permission/{id}:
+    get:
+      tags:
+      - "permission"
+      summary: "Fetch Permission Details"
+      description: "Fetch Permission Details"
+      operationId: "getPermission"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of user to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Permission"
+        401:
+          description: "No permission found"
+      security:
+      - api_key: []
+  /auth/permissions:
+    get:
+      tags:
+      - "permission"
+      summary: "Fetch All Permission Details"
+      description: "Fetch All Permission Details"
+      operationId: "getPermissions"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of permission to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Permission"
+        400:
+          description: "No permission found"
+        404:
+          description: "Permission not found"
+      security:
+      - api_key: []
+  /auth/permission:
+    post:
+      tags:
+      - "permission"
+      summary: "Fetch All Permission Details"
+      description: "Fetch All Permission Details"
+      operationId: "savePermission"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of permission to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        400:
+          description: "The Permission with this name or priority is already created."
+        422:
+          description: "multiple reasons"
+          schema:
+            type: array
+            items:
+              type: "string"
+              enum:
+              - "Permission Name and priority are required."
+              - "Priority should be number"
+              - "The Company is already registered."
+      security:
+      - api_key: []
+    put:
+      tags:
+      - "permission"
+      summary: "Updating Permission Details"
+      description: "Updating Permission Details"
+      operationId: "updatePermission"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "companyId"
+        in: "path"
+        description: "Company that need to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated user object"
+        required: true
+        schema:
+          $ref: "#/definitions/UpdatePermission"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        400:
+          description: "You can't update default permission"
+      security:
+      - api_key: []
+    delete:
+      tags:
+      - "permission"
+      summary: "Removing Permission Details"
+      description: "Removing Permission Details"
+      operationId: "deletePermission"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "api_key"
+        in: "header"
+        required: false
+        type: "string"
+      - name: "companyId"
+        in: "path"
+        description: "Permission id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Permission not found"
+      security:
+      - api_key: []
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "uuid"
+      userName:
+        type: "string"
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      email:
+        type: "string"
+      isVerified:
+        type: "boolean"
+      permissionId:
+        type: "integer"
+  updateUser:
+    type: "object"
+    properties:
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      userName:
+        type: "string"
+      isVerified:
+        type: "boolean"
+  createUser:
+    type: "object"
+    properties:
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      userName:
+        type: "string"
+      email:
+        type: "string"
+      updatedBy:
+        type: "integer"
+      companyId:
+        type: "integer"
+      permissionId:
+        type: "integer"
+  Company:
+    type: "object"
+    required:
+        - "companyName"
+        - "city"
+    properties:
+      id:
+        type: "integer"
+        format: "uuid"
+      city:
+        type: "string"
+      companyName:
+        type: "string"
+      limit:
+        type: "integer"
+        default: 200
+      logo:
+        type: "string"
+  updateCompany:
+    type: "object"
+    properties:
+      companyName:
+        type: "string"
+      city:
+        type: "string"
+      logon:
+        type: "string"
+  Login:
+    type: "object"
+    required:
+      - "email"
+      - "password"
+    properties:
+      email:
+        type: "string"
+      password:
+        type: "string"
+  Signup:
+    type: "object"
+    required:
+      - "email"
+      - "password"
+    properties:
+      userName:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      updatedBy:
+        type: "string"
+  SignupResponse:
+    type: "object"
+    properties:
+      userName:
+        type: "string"
+      email:
+        type: "string"
+  ResetPasswordRequest:
+    type: "object"
+    properties:
+      password:
+        type: "string"
+  ResetPasswordResponse:
+      type: "object"
+      properties:
+        password:
+          type: "string"
+  GetTokenResponse:
+    type: "object"
+    properties:
+      success:
+        type: "boolean"
+      message:
+        type: "string"
+      token:
+        type: "string"
+  Permission:
+    type: "object"
+    required:
+        - "permissionName"
+    properties:
+      id:
+        type: "integer"
+        format: "uuid"
+      permissionName:
+        type: "string"
+      priority:
+        type: "string"
+  UpdatePermission:
+    type: "object"
+    required:
+        - "permissionName"
+    properties:
+      permissionName:
+        type: "string"
+      priority:
+        type: "string"
+      updatedBy:
+        type: "integer"
+  ApiResponse:
+    type: "object"
+    properties:
+      success:
+        type: "boolean"
+      message:
+        type: "string"
